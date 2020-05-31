@@ -5,13 +5,18 @@ from selenium.webdriver.common.keys import Keys
 import time
 import unittest
 from  selenium.common.exceptions import WebDriverException
+from selenium.webdriver.firefox.options import Options
 
 MAX_WAIT = 10
 
 class NewVisitorTest(LiveServerTestCase):
 
     def setUp(self):
-        self.browser = webdriver.Firefox()
+        options = Options()
+        options.add_argument('-headless')
+        
+        self.browser = webdriver.Firefox(options=options)
+        
 
     def tearDown(self):
         self.browser.quit()
