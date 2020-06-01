@@ -8,7 +8,7 @@ import unittest
 from  selenium.common.exceptions import WebDriverException
 from selenium.webdriver.firefox.options import Options
 import os
-
+from django.conf import settings
 MAX_WAIT = 10
 
 class NewVisitorTest(StaticLiveServerTestCase):
@@ -18,8 +18,10 @@ class NewVisitorTest(StaticLiveServerTestCase):
         #options.add_argument('-headless')
         staging_server = os.environ.get('STAGING_SERVER')
         if staging_server:
-            self.live_server_url = 'http://' + staging_server
-        self.browser = webdriver.Firefox(options=options)
+            self.live_server_url = 'http://' + staging_server + '/superlists'
+        else:
+            self.live_server_url = self.live_server_url + f'{settings.BASE_URL}'
+            self.browser = webdriver.Firefox(options=options)
         
 
     def tearDown(self):
@@ -60,7 +62,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         #Edith has heard about a cool new online to-do app. She goes to checkout its homepage
         assert 1 == 1
         #print(self.live_server_url)
-        self.browser.get(self.live_server_url + '/superlists/')
+        self.browser.get(self.live_server_url)
 
         #She Notices the page title and headr mention to-do lists
         self.assertIn('To-Do', self.browser.title)
@@ -110,7 +112,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
     def test_multiple_users_can_start_lists_at_different_urls(self):
         #Edith starts a new to-do list
-        self.browser.get(self.live_server_url+ '/superlists/')
+        self.browser.get(self.live_server_url)
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Buy peacock feathers')
         inputbox.send_keys(Keys.ENTER)
@@ -124,7 +126,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
         self.browser.quit()
         self.browser = webdriver.Firefox()
 
-        self.browser.get(self.live_server_url + '/superlists')
+        self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', page_text)
         self.assertNotIn('make a fly', page_text)
