@@ -27,6 +27,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
+BASE_URL='/superlists'
 
 # Application definition
 

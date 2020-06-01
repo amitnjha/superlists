@@ -8,7 +8,7 @@ import unittest
 from  selenium.common.exceptions import WebDriverException
 from selenium.webdriver.firefox.options import Options
 import os
-
+from django.conf import settings
 MAX_WAIT = 10
 
 class NewVisitorTest(StaticLiveServerTestCase):
@@ -19,7 +19,9 @@ class NewVisitorTest(StaticLiveServerTestCase):
         staging_server = os.environ.get('STAGING_SERVER')
         if staging_server:
             self.live_server_url = 'http://' + staging_server + '/superlists'
-        self.browser = webdriver.Firefox(options=options)
+        else:
+            self.live_server_url = self.live_server_url + f'{settings.BASE_URL}'
+            self.browser = webdriver.Firefox(options=options)
         
 
     def tearDown(self):

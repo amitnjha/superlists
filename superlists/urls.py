@@ -17,10 +17,11 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from lists import views as list_views
 from lists import urls as list_urls
-
+from django.conf import settings
 urlpatterns = [
     #path('admin/', admin.site.urls),
-    #path('superlists/', list_views.home_page,name = 'home'),
-    re_path(r'^$', list_views.home_page, name='home'),
-    re_path(r'^lists/',include(list_urls))
+    path('superlists/', list_views.home_page,name = 'home'),
+    #re_path(r'^$', list_views.home_page, name='home'),
+    re_path(r'^superlists/lists/',include(list_urls))
+    #path(f'{settings.BASE_URL}/lists/', include(list_urls))
 ]
