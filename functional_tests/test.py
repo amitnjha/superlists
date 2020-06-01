@@ -21,7 +21,7 @@ class NewVisitorTest(StaticLiveServerTestCase):
             self.live_server_url = 'http://' + staging_server + '/superlists'
         else:
             self.live_server_url = self.live_server_url + f'{settings.BASE_URL}'
-            self.browser = webdriver.Firefox(options=options)
+        self.browser = webdriver.Firefox(options=options)
         
 
     def tearDown(self):

@@ -21,7 +21,8 @@ from django.conf import settings
 urlpatterns = [
     #path('admin/', admin.site.urls),
     path('superlists/', list_views.home_page,name = 'home'),
-    #re_path(r'^$', list_views.home_page, name='home'),
-    re_path(r'^superlists/lists/',include(list_urls))
+    re_path(r'^$', list_views.home_page, name='home'),
+    re_path(r'^superlists/lists/',include(list_urls)),
+    re_path(r'^lists/', include(list_urls))
     #path(f'{settings.BASE_URL}/lists/', include(list_urls))
 ]
