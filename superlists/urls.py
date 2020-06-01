@@ -20,6 +20,7 @@ from lists import urls as list_urls
 
 urlpatterns = [
     #path('admin/', admin.site.urls),
-    re_path(r'^$', list_views.home_page, name='home'),
-    re_path(r'^lists/',include(list_urls))
+    path('superlists/', list_views.home_page,name = 'home'),
+    #re_path(r'^$', list_views.home_page, name='home'),
+    re_path(r'^superlists/lists/',include(list_urls))
 ]
