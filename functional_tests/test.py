@@ -1,4 +1,5 @@
-from django.test import LiveServerTestCase
+#from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 import unittest
 from selenium.webdriver.common.keys import Keys
@@ -9,11 +10,11 @@ from selenium.webdriver.firefox.options import Options
 
 MAX_WAIT = 10
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 
     def setUp(self):
         options = Options()
-        options.add_argument('-headless')
+        #options.add_argument('-headless')
         
         self.browser = webdriver.Firefox(options=options)
         
@@ -21,21 +22,21 @@ class NewVisitorTest(LiveServerTestCase):
     def tearDown(self):
         self.browser.quit()
 
-    def test_layout_and_styling(self):
+    #def test_layout_and_styling(self):
         # Edith goes to home page
-        self.browser.get(self.live_server_url)
-        self.browser.set_window_size(1024,768)
+    #    self.browser.get(self.live_server_url)
+    #    self.browser.set_window_size(1024,768)
 
-        #She notices the input box nicely centered
-        inputbox = self.browser.find_element_by_id('id_new_item')
-        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] /2, 512, delta = 10)
+    #    #She notices the input box nicely centered
+    #    inputbox = self.browser.find_element_by_id('id_new_item')
+    #    self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] /2, 512, delta = 10)
 
         #she starts a new list and sees the input is nicely centered there too.
-        inputbox.send_keys('testing')
-        inputbox.send_keys(Keys.ENTER)
-        self.wait_for_row_in_list_table('1: testing')
-        inputbox = self.browser.find_element_by_id('id_new_item')
-        self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] /2, 512, delta = 10)
+    #    inputbox.send_keys('testing')
+    #    inputbox.send_keys(Keys.ENTER)
+    #    self.wait_for_row_in_list_table('1: testing')
+    #    inputbox = self.browser.find_element_by_id('id_new_item')
+    #    self.assertAlmostEqual(inputbox.location['x'] + inputbox.size['width'] /2, 512, delta = 10)
     
 
     def wait_for_row_in_list_table(self, row_text):
