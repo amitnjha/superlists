@@ -5,6 +5,7 @@ from django.http  import HttpRequest
 from lists.models import Item, List
 from django.conf import settings
 from django.utils.html import escape
+from lists.forms import ItemForm
 # Create your tests here.
 
 class HomePageTest(TestCase):
@@ -21,6 +22,11 @@ class HomePageTest(TestCase):
         self.assertTrue(html.endswith('</html>\n'))
 
         self.assertTemplateUsed(response, 'home.html')
+
+    def test_home_page_uses_item_form(self):
+        response =  self.client.get(f'{settings.BASE_URL}/')
+        self.assertIsInstance(response.context['form'], ItemForm)
+
         
 class ListViewTest(TestCase):
 
