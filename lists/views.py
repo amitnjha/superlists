@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from lists.models import Item, List
 from django.conf import settings
 from django.core.exceptions import ValidationError
-from lists.forms import ItemForm, ITEM_EMPTY_ERROR
+from lists.forms import ItemForm, ITEM_EMPTY_ERROR, ExistingListItemForm
 
 # Create your views here.
 
@@ -14,11 +14,11 @@ def home_page(request):
 def view_list(request, list_id):
     list_ = List.objects.get(id = list_id)
     error = None
-    form = ItemForm()
+    form = ExistingListItemForm(for_list = list_)
     if request.method == 'POST':
-        form = ItemForm(data = request.POST)
+        form = ExistingListItemForm(data = request.POST, for_list = list_)
         if form.is_valid():
-            form.save(for_list = list_)
+            form.save()
             return redirect(f'{settings.BASE_URL}/lists/{list_.id}/', {'form': form})
     return render(request, 'list.html', {'list': list_, 'error':error, 'form': form})
 
@@ -27,7 +27,7 @@ def new_list(request):
    form = ItemForm(data = request.POST)
    if form.is_valid():
        list_ = List.objects.create()
-       form.save(for_list=list_)
+       form.save_custom(for_list=list_)
        return redirect(f'{settings.BASE_URL}/lists/{list_.id}/')
    else:
        return render(request, 'home.html', {"form" : form, 'error': ITEM_EMPTY_ERROR})
