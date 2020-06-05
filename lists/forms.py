@@ -1,7 +1,7 @@
 from django import forms
 from lists.models import Item
 
-ITEM_EMPTY_ERROR = "You can't have an empty list item"
+ITEM_EMPTY_ERROR = "You can not have an empty list item"
 class ItemForm(forms.models.ModelForm):
 
     class Meta:
@@ -9,7 +9,7 @@ class ItemForm(forms.models.ModelForm):
         fields = ('text',)
         widgets = {
             'text' : forms.fields.TextInput(
-            attrs={
+            attrs={ 
                 'placeholder': 'Enter a to-do item',
                 'class': 'form-control input-lg'
                 })
