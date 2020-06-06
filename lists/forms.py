@@ -1,7 +1,7 @@
 from django import forms
 from lists.models import Item
 from django.core.exceptions import ValidationError
-
+#just a comment
 ITEM_EMPTY_ERROR = "You can not have an empty list item"
 DUPLICATE_ITEM_ERROR = "Duplicate items not allowed"
 
