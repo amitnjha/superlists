@@ -50,3 +50,19 @@ class ItemValidationTest(FunctionalTest):
             self.browser.find_element_by_css_selector('.has-error').text,
             "Duplicate items not allowed"
         ))
+
+    def test_error_message_are_cleared_on_input(self):
+        self.browser.get(self.live_server_url)
+        self.get_item_input_box().send_keys('Banter too thick')
+        self.get_item_input_box().send_keys(Keys.ENTER)
+        self.wait_for_row_in_list_table('1: Banter too thick')
+        self.get_item_input_box().send_keys('Banter too thick')
+        self.get_item_input_box().send_keys(Keys.ENTER)
+
+        self.wait_for(lambda : self.assertTrue(
+            self.browser.find_element_by_css_selector('.has-error').is_displayed()
+            ))
+        self.get_item_input_box().send_keys('B')
+        self.wait_for(lambda : self.assertFalse(
+            self.browser.find_element_by_css_selector('.has-error').is_displayed()
+            ))
