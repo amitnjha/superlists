@@ -25,9 +25,9 @@ urlpatterns = [
     path('superlists/', list_views.home_page,name = 'home'),
     re_path(r'^$', list_views.home_page, name='home'),
     re_path(r'^superlists/lists/',include(list_urls)),
-    re_path(r'^lists/', include(list_urls))
-    re_path(r'^superlists/accounts/',include(list_urls)),
-    re_path(r'^accounts/', include(list_urls))
+    re_path(r'^lists/', include(list_urls)),
+    re_path(r'^superlists/accounts/',include(accounts_urls)),
+    re_path(r'^accounts/', include(accounts_urls))
     
     #path(f'{settings.BASE_URL}/lists/', include(list_urls))
 ]
