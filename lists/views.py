@@ -29,7 +29,8 @@ def new_list(request):
    form = ItemForm(data = request.POST)
    if form.is_valid():
        list_ = List()
-       list_.owner = request.user
+       if request.user.is_authenticated:
+           list_.owner = request.user
        list_.save()
        #list_ = List.objects.create()
        form.save_custom(for_list=list_)
@@ -44,4 +45,6 @@ def new_list(request):
 
 def my_lists(request, email):
     owner = User.objects.get(email = email)
+    #for list_ in  owner.list_set.all():
+    #    print(list_.name)
     return render(request, 'my_lists.html', {'owner': owner})

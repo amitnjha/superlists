@@ -7,8 +7,8 @@
 {% block extra_content %}
 <h2> {{ owner.email }}'s lists</h2>
 <ul>
-  {% for list in owner.list_set.all %}
-     <li><a href="{{ list.get_absolute_url }}">{{ list.name }}</a></li>
+  {% for list_ in owner.list_set.all %}
+     <li><a href="{{ list_.get_absolute_url }}">{{ list_.name }}</a></li>
   {% endfor %}
 </ul>
 {% endblock %}
