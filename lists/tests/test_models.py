@@ -3,7 +3,8 @@ from lists.models import Item, List
 from django.core.exceptions import ValidationError
 from django.conf import settings
 # Create your tests here.
-
+from django.contrib.auth import get_user_model
+User = get_user_model()
     
 class ListAndItemModelsTest(TestCase):
 
@@ -60,4 +61,23 @@ class ListAndItemModelsTest(TestCase):
         Item.objects.create(list= list1, text = 'bla')
         item = Item(text = 'bla', list = list2)
         item.full_clean() #should not raise exception
+
+class ListModelTest(TestCase):
+    def test_get_absolute_url(self):
+        pass
+
+    def test_lists_can_have_owners(self):
+        user = User.objects.create(email='a@b.com')
+        list_ = List.objects.create(owner = user)
+        self.assertIn(list_, user.list_set.all())
+
+    def test_list_owner_is_optional(self):
+        List.objects.create()
+
+    def test_list_name_is_first_item_text(self):
+        list_ = List.objects.create()
+        Item.objects.create(list= list_, text = 'first item')
+        Item.objects.create(list= list_, text = 'seconf item')
+        self.assertEqual(list_.name, 'first item')
+
 

@@ -4,7 +4,9 @@ from lists.models import Item, List
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from lists.forms import ItemForm, ITEM_EMPTY_ERROR, ExistingListItemForm
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 # Create your views here.
 
 def home_page(request):
@@ -26,7 +28,11 @@ def new_list(request):
    #print(request.POST) 
    form = ItemForm(data = request.POST)
    if form.is_valid():
-       list_ = List.objects.create()
+       list_ = List()
+       if request.user.is_authenticated:
+           list_.owner = request.user
+       list_.save()
+       #list_ = List.objects.create()
        form.save_custom(for_list=list_)
        return redirect(f'{settings.BASE_URL}/lists/{list_.id}/')
    else:
@@ -37,3 +43,8 @@ def new_list(request):
 #    Item.objects.create(text = new_item_text, list = list_)
 #    return redirect(f'{settings.BASE_URL}/lists/{list_.id}/')
 
+def my_lists(request, email):
+    owner = User.objects.get(email = email)
+    #for list_ in  owner.list_set.all():
+    #    print(list_.name)
+    return render(request, 'my_lists.html', {'owner': owner})
