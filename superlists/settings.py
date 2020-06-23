@@ -127,7 +127,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 EMAIL_HOST='smtp.gmail.com'
-EMAIL_HOST_USER='aditiadm669@gmail.com'
-EMAIL_HOST_PASSWORD='Dhar1tr1'
+EMAIL_HOST_USER=''
+EMAIL_HOST_PASSWORD=''
 EMAIL_PORT=587
 EMAIL_USE_TLS = True
