@@ -2,6 +2,8 @@
 from selenium.webdriver.common.keys import Keys
 from .base import FunctionalTest
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
     
 class NewVisitorTest(FunctionalTest):
 
@@ -71,7 +73,9 @@ class NewVisitorTest(FunctionalTest):
         #Now a new user Francis comes along to the site.
         ## We use a new browser session to make sure that no information of Edith's is coming through from cookies etc.
         self.browser.quit()
-        self.browser = webdriver.Firefox()
+        options = Options()
+        options.add_argument('--headless')
+        self.browser = webdriver.Chrome(options = options)
 
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text

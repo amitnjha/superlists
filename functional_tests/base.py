@@ -3,7 +3,8 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 import time
 from  selenium.common.exceptions import WebDriverException
-from selenium.webdriver.firefox.options import Options
+#from selenium.webdriver.firefox.options import Options
+from selenium.webdriver.chrome.options import Options
 import os
 from django.conf import settings
 from selenium.webdriver.common.keys import Keys
@@ -15,13 +16,15 @@ class FunctionalTest(StaticLiveServerTestCase):
     def setUp(self):
         options = Options()
         #options.add_argument('-headless')
+        options.add_argument('-headless')
         staging_server = os.environ.get('STAGING_SERVER')
         if staging_server:
             self.live_server_url = 'http://' + staging_server + '/superlists'
         else:
             self.live_server_url = self.live_server_url + f'{settings.BASE_URL}'
-        self.browser = webdriver.Firefox(options=options)
-
+        #self.browser = webdriver.Firefox(options=options)
+        self.browser = webdriver.Chrome(options= options)       
+                                      
     def tearDown(self):
         self.browser.quit()
 
